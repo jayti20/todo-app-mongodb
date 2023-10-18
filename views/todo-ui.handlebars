@@ -1,0 +1,66 @@
+<main>
+    <div>
+        <form action="/add" method="post">
+            <label for="task">Task</label>
+            <input type="text" name="task" id="task-input" placeholder="Enter your task here." required>
+            <button type="submit">Add Task</button>
+        </form>
+    </div>
+    
+    <br><br><br>
+    
+    <form action="/search" method="post">
+        <div>
+            <input placeholder="Search your task here" id="search-input" name="search_text">
+            <button id="search-btn">Search</button>
+        </div>
+    </form>
+    
+    <table id="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Task</th>
+                <th>Date Added</th>
+                <th>Delete</th>
+                <th>Edit</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#unless tasks}}
+            <tr>
+                <td class="no-data" colspan="5">No Data Found</td>
+            </tr>
+            {{/unless}}
+            
+            {{#each tasks}}
+            <tr>
+                <td>{{this._id}}</td>
+                <td>{{this.task}}</td>
+                <td>{{this.date}}</td>
+                <td>
+                    <form action="/delete/{{this._id}}" method="post">
+                        <button type="submit">Delete</button>
+                    </form>
+                </td>
+                <td>
+                    <a href="/edit/{{this._id}}">Edit</a>
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+    
+    <br><br><br>
+    
+    <section>
+        {{#if enableEditing}}
+        <div id="update-task">
+            <form action="/update/{{taskToEdit._id}}" method="post">
+                <input type="text" name="task" id="task-input" value="{{taskToEdit.task}}" required>
+                <button type="submit">Update Task</button>
+            </form>
+        </div>
+        {{/if}}
+    </section>
+</main>
